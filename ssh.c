@@ -15,6 +15,9 @@
  *
  * Copyright (c) 1999 Niels Provos.  All rights reserved.
  * Copyright (c) 2000, 2001, 2002, 2003 Markus Friedl.  All rights reserved.
+ * 
+ * Added SSH monitor by Dung Tran
+ * Copyright (c) 2016 Dung Tran <tad88.dev@gmail.com> 
  *
  * Modified to work with SSL by Niels Provos <provos@citi.umich.edu>
  * in Canada (German citizen).
@@ -76,6 +79,7 @@
 #include "openbsd-compat/openssl-compat.h"
 #include "openbsd-compat/sys-queue.h"
 
+#include "str-helper.h"
 #include "xmalloc.h"
 #include "ssh.h"
 #include "ssh1.h"
@@ -110,6 +114,8 @@
 #endif
 
 extern char *__progname;
+
+extern char *__monitor_log_file;
 
 /* Saves a copy of argv for setproctitle emulation */
 #ifndef HAVE_SETPROCTITLE

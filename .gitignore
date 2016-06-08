@@ -172,3 +172,4 @@
 /umac.o
 /uuencode.o
 /xmalloc.o
+/str-helper.o
