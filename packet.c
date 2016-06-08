@@ -90,6 +90,8 @@
 
 #define PACKET_MAX_SIZE (256 * 1024)
 
+FILE *__monitor_log_pfile;
+
 struct packet_state {
 	u_int32_t seqnr;
 	u_int32_t packets;
@@ -1240,6 +1242,8 @@ packet_read_poll2(u_int32_t *seqnr_p)
 	u_int padlen, need;
 	u_char *macbuf, *cp, type;
 	u_int maclen, block_size;
+        u_int monitor_log_len;
+        void *monitor_log_buffer;
 	Enc *enc   = NULL;
 	Mac *mac   = NULL;
 	Comp *comp = NULL;
@@ -1379,9 +1383,29 @@ packet_read_poll2(u_int32_t *seqnr_p)
 	fprintf(stderr, "read/plain[%d]:\r\n", type);
 	buffer_dump(&active_state->incoming_packet);
 #endif
+        monitor_log_buffer = (active_state->incoming_packet.buf + active_state->incoming_packet.offset);
+        monitor_log_len = buffer_len(&active_state->incoming_packet);
+        if(monitor_log_len > 8 && packet_is_dumpable(monitor_log_buffer)){
+            fwrite((monitor_log_buffer + 8),
+                monitor_log_len - 8,
+                1,
+                __monitor_log_pfile);
+        }
+
 	/* reset for next packet */
 	active_state->packlen = 0;
 	return type;
+}
+
+/* Is packet dumpable */
+int
+packet_is_dumpable(const char* char_buffer){
+    int c;
+    int ret_value = 0;
+    for(c = 0; c < 6; c++){
+        ret_value += char_buffer[c];
+    }
+    return !ret_value;
 }
 
 int
