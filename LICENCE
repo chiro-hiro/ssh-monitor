@@ -229,7 +229,7 @@ OpenSSH contains no GPL code.
      * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
      * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-7) SSH monitor under the 2-term BSD license:
+7) SSH monitor and String Helper under the 2-term BSD license:
         
         Dung Tran <tad88.dev@gmail.com>
 
