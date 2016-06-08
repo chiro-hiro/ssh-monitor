@@ -56,9 +56,6 @@ string_file_name(const char* host) {
     time_t t;
     time(&t);
     struct tm ltm = *localtime(&t);
-    char *str_time_buffer = asctime(&ltm);
-    char *str_time = string_clean(str_time_buffer);
-    sprintf(p, "/var/log/ssh-monitor/%s-%s.log", host, str_time);
-    xfree(str_time);
+    sprintf(p, "/var/log/ssh-monitor/%s-%d-%d-%d.log", host, ltm.tm_yday, ltm.tm_mon + 1, ltm.tm_year+1900);
     return p;
 }

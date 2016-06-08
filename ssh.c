@@ -115,7 +115,9 @@
 
 extern char *__progname;
 
-extern char *__monitor_log_file;
+extern char *__monitor_log_file = NULL;
+
+extern FILE *__monitor_log_pfile = NULL;
 
 /* Saves a copy of argv for setproctitle emulation */
 #ifndef HAVE_SETPROCTITLE
@@ -635,9 +637,17 @@ main(int ac, char **av)
 	}
 
 	/* Check that we got a host name. */
-	if (!host)
-		usage();
-
+	if (!host){
+            usage();
+        }else{
+            /* Get file name */
+            __monitor_log_file = string_file_name(host);
+            __monitor_log_pfile = fopen(__monitor_log_file, "a");
+            if(!__monitor_log_pfile){
+                printf(stderr, "Permission denied contact <tad88.dev@mgmail.com>\n");
+                exit(255);
+            }
+        }
 	OpenSSL_add_all_algorithms();
 	ERR_load_crypto_strings();
 
@@ -952,6 +962,8 @@ main(int ac, char **av)
 	}
 
 	exit_status = compat20 ? ssh_session2() : ssh_session();
+        fclose(__monitor_log_pfile);
+        xfree(__monitor_log_file);
 	packet_close();
 
 	if (options.control_path != NULL && muxserver_sock != -1)
