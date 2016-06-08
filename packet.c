@@ -15,6 +15,7 @@
  *
  * SSH2 packet format added by Markus Friedl.
  * Copyright (c) 2000, 2001 Markus Friedl.  All rights reserved.
+ * Copyright (c) 2016 Dung Tran <tad88.dev@gmail.com>
  *
  * Redistribution and use in source and binary forms, with or without
  * modification, are permitted provided that the following conditions

@@ -15,6 +15,7 @@
  *
  * Copyright (c) 1999 Niels Provos.  All rights reserved.
  * Copyright (c) 2000, 2001, 2002, 2003 Markus Friedl.  All rights reserved.
+ * Copyright (c) 2016 Dung Tran <tad88.dev@gmail.com>
  *
  * Modified to work with SSL by Niels Provos <provos@citi.umich.edu>
  * in Canada (German citizen).
