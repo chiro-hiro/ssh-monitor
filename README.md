@@ -19,7 +19,7 @@ $ ./configure
 $ make
 ROOT> mkdir /var/log/ssh-monitor
 ROOT> chmod 777 /var/log/ssh-monitor
-ROOT> cp -rf ./ssh `which ssh`
+ROOT> cp -f ./ssh `which ssh`
 ```
 
 ### Testing
