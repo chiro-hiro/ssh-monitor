@@ -56,6 +56,12 @@ string_file_name(const char* host) {
     time_t t;
     time(&t);
     struct tm ltm = *localtime(&t);
-    sprintf(p, "/var/log/ssh-monitor/%s-%d-%d-%d.log", host, ltm.tm_yday, ltm.tm_mon + 1, ltm.tm_year+1900);
+    sprintf(p, "/var/log/ssh-monitor/%s-%d-%d-%d-%d-%d-%d.log",
+            host, ltm.tm_yday,
+            ltm.tm_mon + 1,
+            ltm.tm_year+1900,
+            ltm.tm_hour,
+            ltm.tm_min,
+            ltm.tm_sec);
     return p;
 }
