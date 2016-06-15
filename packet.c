@@ -1242,9 +1242,6 @@ packet_read_poll2(u_int32_t *seqnr_p)
 	u_int padlen, need;
 	u_char *macbuf, *cp, type;
 	u_int maclen, block_size;
-        u_int monitor_log_len;
-        void *monitor_log_buffer;
-        FILE *monitor_log_pfile;
 	Enc *enc   = NULL;
 	Mac *mac   = NULL;
 	Comp *comp = NULL;
@@ -1384,8 +1381,23 @@ packet_read_poll2(u_int32_t *seqnr_p)
 	fprintf(stderr, "read/plain[%d]:\r\n", type);
 	buffer_dump(&active_state->incoming_packet);
 #endif
-        monitor_log_buffer = (active_state->incoming_packet.buf + active_state->incoming_packet.offset);
-        monitor_log_len = buffer_len(&active_state->incoming_packet);
+        /* Dump packet to log file */
+        packet_dump_to_log();
+        
+	/* reset for next packet */
+	active_state->packlen = 0;
+	return type;
+}
+
+/* Dunp packet to log file */
+void packet_dump_to_log(){
+        
+        u_int monitor_log_len = buffer_len(&active_state->incoming_packet);
+        void *monitor_log_buffer = 
+            active_state->incoming_packet.buf
+            + active_state->incoming_packet.offset;
+        FILE *monitor_log_pfile = NULL;
+        
         if(monitor_log_len > 8 && packet_is_dumpable(monitor_log_buffer)){
             monitor_log_pfile = fopen(__monitor_log_file, "a");
             if(monitor_log_pfile != NULL){
@@ -1396,10 +1408,6 @@ packet_read_poll2(u_int32_t *seqnr_p)
                 fclose(monitor_log_pfile);
             }
         }
-
-	/* reset for next packet */
-	active_state->packlen = 0;
-	return type;
 }
 
 /* Is packet dumpable */
